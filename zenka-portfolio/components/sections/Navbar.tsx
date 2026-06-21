@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { FloatingDock } from "../ui/floating-dock";
 import {
   Home,
@@ -10,43 +13,46 @@ import {
 } from "lucide-react";
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const isAdmin = pathname.startsWith("/admin");
+
   const items = [
     {
       title: "Home",
       icon: <Home className="h-full w-full text-[var(--text-muted)]" />,
-      href: "#home",
+      href: isAdmin ? "/admin" : "#home",
     },
     {
       title: "About",
       icon: <User className="h-full w-full text-[var(--text-muted)]" />,
-      href: "#about",
+      href: isAdmin ? "/admin/about" : "#about",
     },
     {
       title: "Projects",
       icon: <FolderOpen className="h-full w-full text-[var(--text-muted)]" />,
-      href: "#projects",
+      href: isAdmin ? "/admin/projects" : "#projects",
     },
     {
       title: "Skills",
       icon: <Wrench className="h-full w-full text-[var(--text-muted)]" />,
-      href: "#skills",
+      href: isAdmin ? "/admin/skills" : "#skills",
     },
     {
       title: "Education",
       icon: (
         <GraduationCap className="h-full w-full text-[var(--text-muted)]" />
       ),
-      href: "#education",
+      href: isAdmin ? "/admin/credentials" : "#credentials",
     },
     {
       title: "Gallery",
       icon: <Image className="h-full w-full text-[var(--text-muted)]" />,
-      href: "#gallery",
+      href: isAdmin ? "/admin/gallery" : "#gallery",
     },
     {
       title: "Contact",
       icon: <Mail className="h-full w-full text-[var(--text-muted)]" />,
-      href: "#contact",
+      href: isAdmin ? "/admin/profile" : "#contact",
     },
   ];
 
