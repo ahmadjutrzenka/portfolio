@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/sections/Navbar";
+import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -19,11 +20,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${plusJakartaSans.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    <html lang="en" className={`${plusJakartaSans.variable} antialiased`}>
+      <body className="min-h-screen flex flex-col items-center">
+        <div className="fixed inset-0 -z-10">
+          <BackgroundGradientAnimation
+            gradientBackgroundStart="rgb(15, 13, 30)"
+            gradientBackgroundEnd="rgb(28, 13, 36)"
+            firstColor="139, 127, 245"
+            secondColor="16, 37, 53"
+            thirdColor="28, 13, 36"
+            fourthColor="142, 147, 176"
+            fifthColor="19, 16, 42"
+          />
+        </div>
         {children}
         <Navbar />
       </body>
