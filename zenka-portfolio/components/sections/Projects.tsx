@@ -16,7 +16,7 @@ export default function Projects({ projects }: ProjectsProps) {
       <h2 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-3">
         Projects
       </h2>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}

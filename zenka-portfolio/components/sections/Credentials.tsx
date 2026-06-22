@@ -14,7 +14,7 @@ export default function Credentials({
       <h2 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-3">
         Credentials
       </h2>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="flex flex-col gap-3">
           <h3 className="text-xs uppercase tracking-widest text-[var(--text-muted)]">
             Education
@@ -58,10 +58,10 @@ export default function Credentials({
             {certifications.map((cert) => (
               <div
                 key={cert.id}
-                className="rounded-xl border border-[#241e52] bg-[rgba(255,255,255,0.04)] px-4 py-3 flex items-center justify-between"
+                className="rounded-xl border border-[#241e52] bg-[rgba(255,255,255,0.04)] px-4 py-3 flex items-center justify-between gap-3"
               >
-                <div className="flex flex-col gap-0.5">
-                  <p className="text-sm text-white">{cert.name}</p>
+                <div className="flex flex-col gap-0.5 min-w-0">
+                  <p className="text-sm text-white truncate">{cert.name}</p>
                   <p className="text-xs text-[var(--text-muted)]">
                     {cert.issuer}
                     {cert.issueDate &&

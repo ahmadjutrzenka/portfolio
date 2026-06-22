@@ -22,10 +22,6 @@ export default function Gallery({ items }: GalleryProps) {
     return () => clearInterval(timer);
   }, [next, items.length]);
 
-  const handleSelect = (i: number) => {
-    setActive(i);
-  };
-
   if (items.length === 0) {
     return (
       <section id="gallery" className="flex flex-col gap-6">
@@ -49,7 +45,9 @@ export default function Gallery({ items }: GalleryProps) {
         Beyond the Code
       </h2>
 
-      <div className="grid grid-cols-[1fr_200px] gap-3">
+      {/* Desktop: featured kiri + thumbnails kanan */}
+      {/* Mobile: featured atas + thumbnails horizontal scroll bawah */}
+      <div className="flex flex-col gap-3 sm:grid sm:grid-cols-[1fr_160px] sm:gap-3">
         {/* Featured photo */}
         <div className="relative rounded-xl overflow-hidden aspect-[4/3]">
           <img
@@ -65,15 +63,15 @@ export default function Gallery({ items }: GalleryProps) {
           )}
         </div>
 
-        {/* Thumbnail strip */}
-        <div className="flex flex-col gap-2 overflow-y-auto max-h-[calc(4/3*100%)] pr-1 scrollbar-none">
+        {/* Thumbnails — vertikal di desktop, horizontal scroll di mobile */}
+        <div className="flex flex-row gap-2 overflow-x-auto pb-1 sm:flex-col sm:overflow-y-auto sm:overflow-x-hidden sm:max-h-[calc(4/3*100%)] sm:pb-0 sm:pr-1 scrollbar-none">
           {items.map((item, i) => (
             <button
               key={item.id}
-              onClick={() => handleSelect(i)}
-              className={`relative rounded-lg overflow-hidden aspect-video flex-shrink-0 transition-all duration-200 ${
-                i === active ? "opacity-100" : "opacity-50 hover:opacity-80"
-              }`}
+              onClick={() => setActive(i)}
+              className={`relative rounded-lg overflow-hidden flex-shrink-0 transition-all duration-200
+                w-24 aspect-video sm:w-auto sm:aspect-video
+                ${i === active ? "opacity-100" : "opacity-50 hover:opacity-80"}`}
             >
               <img
                 src={item.url}

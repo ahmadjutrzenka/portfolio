@@ -14,7 +14,7 @@ export default function Skills({ skillGroups }: SkillsProps) {
       <h2 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-3">
         Skills
       </h2>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {skillGroups.map((group) => (
           <SkillGroupCard key={group.id} skillGroup={group} />
         ))}

@@ -9,16 +9,16 @@ interface HeroProps {
 
 export default function Hero({ profile }: HeroProps) {
   return (
-    <section id="home" className="">
+    <section id="home">
       <div className="flex flex-col gap-6">
         {/* Avatar + Name row */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6">
           {/* Avatar */}
           <div className="relative flex-shrink-0">
             <img
               src="https://res.cloudinary.com/dbprwdsdk/image/upload/v1782118371/CHR04148E_2_2_qpwjdj.jpg"
               alt="Ahmad Jutrzenka"
-              className="w-30 h-30 rounded-full object-cover"
+              className="w-20 h-20 sm:w-30 sm:h-30 rounded-full object-cover"
             />
           </div>
 
@@ -26,7 +26,7 @@ export default function Hero({ profile }: HeroProps) {
           <div className="flex flex-col gap-2">
             <CanvasText
               text={profile?.name || "Ahmad Jutrzenka Ilyas"}
-              className="text-4xl font-bold"
+              className="text-2xl sm:text-4xl font-bold"
               backgroundClassName="bg-blue-600 dark:bg-blue-700"
               colors={[
                 "rgba(139, 127, 245, 0.9)",
@@ -39,10 +39,12 @@ export default function Hero({ profile }: HeroProps) {
               lineGap={4}
               animationDuration={20}
             />
-            <p className="text-[#8b7ff5]">{profile?.title}</p>
+            <p className="text-sm sm:text-base text-[#8b7ff5]">
+              {profile?.title}
+            </p>
             {/* Open to Work */}
             {profile?.openToWork && (
-              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full w-fit bg-[var(--bg-badge)]">
+              <div className="flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full w-fit bg-[var(--bg-badge)]">
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                 <span className="text-xs text-[var(--text-main)]">
                   Open to Work
@@ -56,7 +58,7 @@ export default function Hero({ profile }: HeroProps) {
         <p className="text-sm text-[var(--text-muted)]">{profile?.tagline}</p>
 
         {/* Social links */}
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <a
             href={profile?.linkedinUrl || "https://linkedin.com/in/jutrzenka"}
             target="_blank"
