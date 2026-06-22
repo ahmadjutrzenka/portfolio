@@ -1,11 +1,4 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-
-export default async function AdminPage() {
-  const session = await auth();
-
-  if (!session) redirect("/admin/login");
-
+export default function AdminPage() {
   return (
     <div>
       <h1>Admin Panel</h1>
