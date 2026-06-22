@@ -1,5 +1,6 @@
 import { Project, ProjectImage } from "@/app/generated/prisma/client";
 import { CardSpotlight } from "../ui/card-spotlight";
+import ProjectCarousel from "./ProjectCarousel";
 
 type ProjectWithImages = Project & {
   images: ProjectImage[];
@@ -30,6 +31,7 @@ export function ProjectCard({ project }: { project: ProjectWithImages }) {
       color="#1e1944"
       className="rounded-xl border border-[#241e52] bg-[rgba(255,255,255,0.04)] p-4 flex flex-col gap-2"
     >
+      <ProjectCarousel images={project.images} />
       <div className="relative z-10 flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-white">{project.title}</h3>
@@ -50,13 +52,6 @@ export function ProjectCard({ project }: { project: ProjectWithImages }) {
             </span>
           ))}
         </div>
-        {project.images.length > 0 && (
-          <img
-            src={project.images[0].url}
-            alt={project.title}
-            className="rounded-md mt-2"
-          />
-        )}
         <div className="flex gap-3 mt-auto pt-2">
           {project.repoVisible && project.repoUrl && (
             <a

@@ -11,7 +11,7 @@ export default async function AdminLayout({
 
   return (
     <div className="flex min-h-screen">
-      <main>{children}</main>
+      <main className="flex-1 p-8 pb-24">{children}</main>
     </div>
   );
 }

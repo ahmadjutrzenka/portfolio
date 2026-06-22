@@ -5,7 +5,7 @@ import {
   ProjectImage,
   ProjectStatus,
 } from "@/app/generated/prisma/client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 type ProjectWithImages = Project & { images: ProjectImage[] };
 
@@ -34,6 +34,8 @@ export default function ProjectsEditor({
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState(emptyForm);
   const [message, setMessage] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   function handleChange(
     e: React.ChangeEvent<
@@ -101,14 +103,16 @@ export default function ProjectsEditor({
       if (editing) {
         setProjects((prev) =>
           prev.map((p) =>
-            p.id === updated.id ? { ...updated, images: p.images } : p,
+            p.id === updated.id ? { ...updated, images: editing.images } : p,
           ),
         );
+        setEditing({ ...updated, images: editing.images });
       } else {
-        setProjects((prev) => [...prev, { ...updated, images: [] }]);
+        const newProject = { ...updated, images: [] };
+        setProjects((prev) => [...prev, newProject]);
+        setEditing(newProject);
+        setAdding(false);
       }
-      setEditing(null);
-      setAdding(false);
       setMessage("Saved!");
     } else {
       setMessage("Failed to save.");
@@ -120,6 +124,54 @@ export default function ProjectsEditor({
     const res = await fetch(`/api/admin/projects/${id}`, { method: "DELETE" });
     if (res.ok) {
       setProjects((prev) => prev.filter((p) => p.id !== id));
+      if (editing?.id === id) setEditing(null);
+    }
+  }
+
+  async function handleUploadImage() {
+    if (!editing || !fileRef.current?.files?.[0]) return;
+    setUploading(true);
+
+    const formData = new FormData();
+    formData.append("file", fileRef.current.files[0]);
+
+    const res = await fetch(`/api/admin/projects/${editing.id}/images`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (res.ok) {
+      const image = await res.json();
+      const updatedProject = { ...editing, images: [...editing.images, image] };
+      setEditing(updatedProject);
+      setProjects((prev) =>
+        prev.map((p) => (p.id === editing.id ? updatedProject : p)),
+      );
+      if (fileRef.current) fileRef.current.value = "";
+      setMessage("Image uploaded!");
+    } else {
+      setMessage("Upload failed.");
+    }
+    setUploading(false);
+  }
+
+  async function handleDeleteImage(imageId: number) {
+    if (!editing) return;
+    const res = await fetch(
+      `/api/admin/projects/${editing.id}/images/${imageId}`,
+      {
+        method: "DELETE",
+      },
+    );
+    if (res.ok) {
+      const updatedProject = {
+        ...editing,
+        images: editing.images.filter((i) => i.id !== imageId),
+      };
+      setEditing(updatedProject);
+      setProjects((prev) =>
+        prev.map((p) => (p.id === editing.id ? updatedProject : p)),
+      );
     }
   }
 
@@ -149,7 +201,8 @@ export default function ProjectsEditor({
             <div className="flex flex-col gap-0.5">
               <p className="text-sm text-white font-medium">{project.title}</p>
               <p className="text-xs text-[var(--text-muted)]">
-                {project.status} · order {project.order}
+                {project.status} · order {project.order} ·{" "}
+                {project.images.length} image(s)
               </p>
             </div>
             <div className="flex gap-2">
@@ -174,7 +227,7 @@ export default function ProjectsEditor({
       {showForm && (
         <div className="flex flex-col gap-4 p-6 rounded-xl border border-[#241e52] bg-[rgba(255,255,255,0.04)]">
           <h2 className="text-lg font-semibold text-white">
-            {editing ? "Edit Project" : "Add Project"}
+            {editing ? `Edit: ${editing.title}` : "Add Project"}
           </h2>
 
           {[
@@ -305,6 +358,47 @@ export default function ProjectsEditor({
               Cancel
             </button>
           </div>
+
+          {editing && (
+            <div className="flex flex-col gap-3 pt-4 border-t border-[#241e52]">
+              <h3 className="text-sm font-semibold text-white">Screenshots</h3>
+              <div className="flex gap-2 flex-wrap">
+                {editing.images.map((image) => (
+                  <div
+                    key={image.id}
+                    className="relative group w-24 h-24 rounded-lg overflow-hidden"
+                  >
+                    <img
+                      src={image.url}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      onClick={() => handleDeleteImage(image.id)}
+                      className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-red-400 text-xs"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="flex gap-2 items-center">
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  className="text-xs text-[var(--text-muted)] file:mr-3 file:px-3 file:py-1 file:rounded-full file:border file:border-[#241e52] file:bg-[var(--bg-hover)] file:text-white file:text-xs"
+                />
+                <button
+                  onClick={handleUploadImage}
+                  disabled={uploading}
+                  className="px-4 py-1.5 rounded-full bg-[var(--bg-badge)] text-white text-xs hover:opacity-90 disabled:opacity-50"
+                >
+                  {uploading ? "Uploading..." : "Upload"}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
