@@ -20,18 +20,26 @@ export async function POST(req: Request) {
   const result = await new Promise<{ public_id: string; secure_url: string }>(
     (resolve, reject) => {
       cloudinary.uploader
-        .upload_stream({ folder: "portfolio/gallery" }, (error, result) => {
-          if (error || !result) reject(error);
-          else resolve(result);
-        })
+        .upload_stream(
+          {
+            folder: "portfolio/gallery",
+            transformation: [{ width: 1920, crop: "limit", quality: "auto" }],
+          },
+          (error, result) => {
+            if (error || !result) reject(error);
+            else resolve(result);
+          },
+        )
         .end(buffer);
     },
   );
 
+  const optimizedUrl = result.secure_url.replace("/upload/", "/upload/f_auto/");
+
   const item = await prisma.galleryItem.create({
     data: {
       cloudinaryId: result.public_id,
-      url: result.secure_url,
+      url: optimizedUrl,
       caption: caption || null,
       order: 0,
     },
@@ -39,3 +47,6 @@ export async function POST(req: Request) {
 
   return NextResponse.json(item);
 }
+
+export const maxDuration = 60;
+export const dynamic = "force-dynamic";
