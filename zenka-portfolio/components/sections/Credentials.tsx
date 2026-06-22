@@ -1,4 +1,5 @@
 import { Education, Certification } from "@/app/generated/prisma/client";
+import { ExternalLink } from "lucide-react";
 
 interface CredentialsProps {
   education: Education[];
@@ -72,9 +73,10 @@ export default function Credentials({
                   <a
                     href={cert.credentialUrl}
                     target="_blank"
-                    className="text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors flex-shrink-0"
+                    className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-[#241e52] text-xs text-[var(--text-muted)] hover:border-[#8b7ff5] hover:text-[#8b7ff5] transition-all flex-shrink-0"
                   >
-                    ↗
+                    <ExternalLink className="w-3 h-3" />
+                    Verify
                   </a>
                 )}
               </div>
