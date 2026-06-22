@@ -156,3 +156,7 @@
     transform: translateY(-50%);
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}

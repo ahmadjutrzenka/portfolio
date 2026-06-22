@@ -10,7 +10,7 @@ interface SkillsProps {
 
 export default function Skills({ skillGroups }: SkillsProps) {
   return (
-    <section id="skills" className="py-8 flex flex-col gap-6">
+    <section id="skills" className="flex flex-col gap-6">
       <h2 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-3">
         Skills
       </h2>

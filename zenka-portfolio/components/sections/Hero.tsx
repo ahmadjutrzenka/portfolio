@@ -9,7 +9,7 @@ interface HeroProps {
 
 export default function Hero({ profile }: HeroProps) {
   return (
-    <section id="home" className="py-12">
+    <section id="home" className="">
       <div className="flex flex-col gap-6">
         {/* Avatar + Name row */}
         <div className="flex items-center gap-6">

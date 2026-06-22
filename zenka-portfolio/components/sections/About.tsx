@@ -6,7 +6,7 @@ interface AboutProps {
 
 export default function AboutSection({ about }: AboutProps) {
   return (
-    <section id="about" className="py-8 flex flex-col gap-4">
+    <section id="about" className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-3">
         About
       </h2>

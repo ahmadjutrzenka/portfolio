@@ -12,7 +12,7 @@ interface ProjectsProps {
 
 export default function Projects({ projects }: ProjectsProps) {
   return (
-    <section id="projects" className="py-8 flex flex-col gap-6">
+    <section id="projects" className="flex flex-col gap-6">
       <h2 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-3">
         Projects
       </h2>

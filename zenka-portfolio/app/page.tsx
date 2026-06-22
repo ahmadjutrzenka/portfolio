@@ -33,7 +33,7 @@ export default async function Home() {
   ]);
 
   return (
-    <main className="w-full max-w-[960px] px-12 pt-20 pb-32 flex flex-col ">
+    <main className="w-full max-w-[960px] px-12 pt-20 pb-32 flex flex-col gap-8">
       <Hero profile={profile} />
       <AboutSection about={about} />
       <Projects projects={projects} />

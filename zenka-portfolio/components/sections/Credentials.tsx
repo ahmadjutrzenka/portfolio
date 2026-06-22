@@ -10,7 +10,7 @@ export default function Credentials({
   certifications,
 }: CredentialsProps) {
   return (
-    <section id="credentials" className="py-8 flex flex-col gap-6">
+    <section id="credentials" className="flex flex-col gap-6">
       <h2 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-3">
         Credentials
       </h2>

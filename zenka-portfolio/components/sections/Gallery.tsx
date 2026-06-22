@@ -16,7 +16,6 @@ export default function Gallery({ items }: GalleryProps) {
     setActive((prev) => (prev + 1) % items.length);
   }, [items.length]);
 
-  // Auto-carousel: reset timer setiap kali user klik manual
   useEffect(() => {
     if (items.length <= 1) return;
     const timer = setInterval(next, INTERVAL);
@@ -29,7 +28,7 @@ export default function Gallery({ items }: GalleryProps) {
 
   if (items.length === 0) {
     return (
-      <section id="gallery" className="py-8 flex flex-col gap-6">
+      <section id="gallery" className="flex flex-col gap-6">
         <h2 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-3">
           Beyond the Code
         </h2>
@@ -45,7 +44,7 @@ export default function Gallery({ items }: GalleryProps) {
   const featured = items[active];
 
   return (
-    <section id="gallery" className="py-8 flex flex-col gap-6">
+    <section id="gallery" className="flex flex-col gap-6">
       <h2 className="text-2xl font-bold text-white border-l-4 border-[var(--accent)] pl-3">
         Beyond the Code
       </h2>
